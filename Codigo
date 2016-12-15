@@ -1,0 +1,43 @@
+//AUTOR: Luis A O Cauro
+//FECHA: 30–09–2013 9:15
+//PINES: 2-Led, 4-Led, 6-Led, 8-Led, 10-Led, 12-Led
+//DESCRIPCION:
+//VTD:9600 baud (Baudios)
+#include &lt;FastIO.h&gt;
+#include &lt;I2CIO.h&gt;
+#include &lt;LCD.h&gt;
+#include &lt;LiquidCrystal.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+#include &lt;LiquidCrystal_SR.h&gt;
+#include &lt;LiquidCrystal_SR2W.h&gt;
+#include &lt;LiquidCrystal_SR3W.h&gt;
+#include &lt;Wire.h&gt;
+LiquidCrystal_I2C lcd(0x27,2,1,0,4,5,6,7,3,POSITIVE);
+float lectura=0;
+float voltaje=0;
+void setup()
+{
+lcd.begin(20,4);
+Serial.begin(9600);
+}
+void loop()
+{
+lectura_voltios();
+lcd.setCursor(0,0);
+lcd.print(“Voltaje medido:”);
+lcd.setCursor(13, 1);
+lcd.print(“(V)”);
+delay(500);
+}
+void lectura_voltios()
+{
+lectura=analogRead(A0);
+Serial.println(lectura);
+voltaje = ((5*float(lectura))/1023);
+float voltaje2 = voltaje *4;
+lcd.setCursor(0, 1);
+lcd.print(voltaje2);
+Serial.println(voltaje);
+Serial.println(voltaje2);
+delay(1000);
+}
